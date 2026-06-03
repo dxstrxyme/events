@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from "typeorm";
 import { User } from "./user.entity";
+import { EventParticipant } from "./event-participant";
 
 @Entity('Events')
 
@@ -23,5 +24,19 @@ export class Event {
     @Column({ type: 'timestamptz' })
     startedAt!: Date
 
+    @ManyToOne(() => User, (user) => user.events, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'ownerId' })
     owner!: User
+
+    @Column({ type: 'uuid' })
+    ownerId!: string
+
+    @OneToMany(() => EventParticipant, (participant) => participant.event)
+    participants!: EventParticipant[]
+
+    @CreateDateColumn({ type: 'timestamptz' })
+    createdAt!: Date
+
+    @CreateDateColumn({ type: 'timestamptz' })
+    updatedAt!: Date
 }

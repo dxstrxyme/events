@@ -16,8 +16,10 @@ export class User {
     @Column({ type: 'varchar', length: 100 })
     name!: string;
 
+    @OneToMany(() => Event, (event) => event.owner)
     events!: Event
 
+    @OneToMany(() => EventParticipant, (participant) => participant.user)
     eventParticipations!: EventParticipant[]
 
     @CreateDateColumn({ type: 'timestamptz' })

@@ -5,6 +5,7 @@ import { loginSchema, registerSchema } from "./auth.schemas";
 import argon2 from "argon2";
 import { issue } from "zod/v4/core/util.cjs";
 import { request } from "node:http";
+import { REPL_MODE_SLOPPY } from "node:repl";
 
 export const authRoutes: FastifyPluginAsync = async (app) => {
     const userRepository = AppDataSource.getRepository(User)
@@ -79,4 +80,19 @@ export const authRoutes: FastifyPluginAsync = async (app) => {
             }
         })
     })
+
+    app.get('/me', { preHandler: [app.authenticate] }, async (request, reply) => {
+        const userId = request.user.sub;
+        const user = await userRepository.findOne({ where: { id: userId } });
+        if (!user) {
+            return reply.code(404).send({ message: 'Пользователь не найден' })
+        }
+        return reply.send({
+            id: user.id,
+            email: user.email,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt
+        })
+    })
+
 }

@@ -34,6 +34,7 @@ const start = async () => {
 
         await app.register(authRoutes, { prefix: '/auth' })
         await app.register(eventsRoutes, { prefix: '/events' })
+        await app.register(eventsRoutes, { prefix: '/me' })
 
         await AppDataSource.initialize();
         app.log.info('Database connected')

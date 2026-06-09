@@ -1,11 +1,9 @@
 import { FastifyPluginAsync } from "fastify";
-import { AppDataSource } from "../../data-source";
-import { User } from "../../entities/user.entity";
+import { AppDataSource } from "../../db/data-source";
+import { User } from "../../db/entities/user.entity";
 import { loginSchema, registerSchema } from "./auth.schemas";
 import argon2 from "argon2";
-import { issue } from "zod/v4/core/util.cjs";
-import { request } from "node:http";
-import { REPL_MODE_SLOPPY } from "node:repl";
+
 
 export const authRoutes: FastifyPluginAsync = async (app) => {
     const userRepository = AppDataSource.getRepository(User)

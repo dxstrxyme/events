@@ -5,8 +5,8 @@ import 'dotenv/config';
 import 'reflect-metadata';
 import { validateEnv, env } from "../config/env";
 import { AppDataSource } from "./db/data-source";
-import { authRoutes } from "./db/modules/auth/auth.routes";
-import { eventsRoutes } from "./db/modules/events/events.routes";
+import { authRoutes } from "./modules/auth/auth.routes";
+import { eventsRoutes } from "./modules/events/events.routes";
 
 const app = fastify({ logger: true });
 

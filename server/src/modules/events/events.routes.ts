@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from "fastify";
-import { AppDataSource } from "../../data-source";
-import { Event } from "../../entities/event.entity";
-import { EventParticipant } from "../../entities/event-participant";
+import { AppDataSource } from "../../db/data-source";
+import { Event } from "../../db/entities/event.entity";
+import { EventParticipant } from "../../db/entities/event-participant";
 import { createEventSchema } from "./events.schemas";
 
 export const eventsRoutes: FastifyPluginAsync = async (app) => {

@@ -2,7 +2,10 @@ import { FastifyPluginAsync } from "fastify";
 import { AppDataSource } from "../../db/data-source";
 import { Event } from "../../db/entities/event.entity";
 import { EventParticipant } from "../../db/entities/event-participant";
-import { createEventSchema } from "./events.schemas";
+import { createEventSchema, updateEventSchema } from "./events.schemas";
+import { request } from "node:http";
+
+type EventParams = { id: string }
 
 export const eventsRoutes: FastifyPluginAsync = async (app) => {
     const eventRepository = AppDataSource.getRepository(Event);
@@ -44,5 +47,74 @@ export const eventsRoutes: FastifyPluginAsync = async (app) => {
         return eventRepository.find({
             order: { startedAt: 'ASC' }
         })
+    })
+
+    app.get<{ Params: EventParams }>('/:id', { preHandler: [app.authenticate] }, async (request, reply) => {
+        const event = await eventRepository.findOne({
+            where: { id: request.params.id }
+        })
+
+        if (!event) {
+            return reply.code(404).send({ message: 'Событие не найдено' })
+        }
+        return reply.send(event);
+    })
+
+    app.patch<{ Params: EventParams }>('/:id', { preHandler: [app.authenticate] }, async (request, reply) => {
+        const event = await eventRepository.findOne({
+            where: { id: request.params.id }
+        })
+
+        if (!event) {
+            return reply.code(404).send({ message: 'Событие не найдено' })
+        }
+
+        if (event.ownerId !== request.user.sub) {
+            return reply.code(403).send({
+                message: "Только владелец может редактировать"
+            })
+        }
+
+        const parsedBody = updateEventSchema.safeParse(request.body);
+        if (!parsedBody.success) {
+            return reply.code(400).send({
+                message: 'Validation error',
+                errors: parsedBody.error.issues.map(issue => ({
+                    path: issue.path.join('.'),
+                    message: issue.message
+                }))
+            })
+        }
+        const {
+            title,
+            description,
+            capacity,
+            address,
+            startedAt
+        } = parsedBody.data
+
+        if (title !== undefined) {
+            event.title = title
+        }
+
+        if (description !== undefined) {
+            event.description = description
+        }
+
+        if (capacity !== undefined) {
+            event.capacity = capacity
+        }
+
+        if (address !== undefined) {
+            event.address = address
+        }
+
+        if (startedAt !== undefined) {
+            event.startedAt = startedAt
+        }
+
+        const updatedEvent = await eventRepository.save(event);
+
+        return reply.send(updatedEvent);
     })
 }

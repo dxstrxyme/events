@@ -18,3 +18,9 @@ export type AuthResponse = {
     token: string
     user: UserPublic
 }
+
+export type AuthRegisterRequest = {
+    email: string
+    password: string
+    name: string
+}

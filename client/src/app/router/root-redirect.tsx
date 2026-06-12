@@ -1,8 +1,8 @@
+import { useAuthBootstrap } from "@/hooks/use-auth-bootstrap"
+import { Navigate } from "react-router-dom"
 
-function RootRedirect() {
-    return (
-        <div>RootRedirect</div>
-    )
+export function RootRedirect() {
+    const user = useAuthBootstrap();
+    return <Navigate to={user ? '/events' : '/login'} />
 }
 
-export default RootRedirect

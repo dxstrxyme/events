@@ -3,6 +3,7 @@ import { RootLayout } from "./router/root-layout";
 import { RootRedirect } from "./router/root-redirect";
 import { GuestRoute } from "./router/guest-route";
 import { ProtectedRoute } from "./router/protected-route";
+import { AuthRegisterPage } from "@/pages/auth/register/page";
 
 export const appRouter = createBrowserRouter([
     {
@@ -12,11 +13,20 @@ export const appRouter = createBrowserRouter([
             { index: true, element: <RootRedirect /> },
             {
                 element: <GuestRoute />,
-                children: []
+                children: [
+                    { path: 'login', element: <h1>Login</h1> },
+                    { path: 'register', element: <AuthRegisterPage /> }
+                ]
             },
             {
                 element: <ProtectedRoute />,
-                children: []
+                children: [
+                    { path: 'events', element: <h1>events</h1> },
+                    { path: 'events/my', element: <h1>events/my</h1> },
+                    { path: 'events/new', element: <h1>events/new</h1> },
+                    { path: 'events/:id', element: <h1>events/:id</h1> },
+                    { path: 'events/:id/edit', element: <h1>events/:id/edit</h1> }
+                ]
             },
             {
                 path: "*", element: <Navigate to="/" replace />

@@ -34,3 +34,38 @@ export type AuthRegisterRequest = {
     password: string
     name: string
 }
+
+export type EventDto = {
+    id: string
+    title: string
+    description: string
+    capacity: string
+    address: string
+    startedAt: string
+    ownerId: string
+    upadtedAt: string
+}
+
+export type CreateEventRequest = {
+    title: string
+    description: string
+    capacity: string
+    startedAt: string
+}
+
+export type UpdateEventsRequest = Partial<CreateEventRequest>
+
+export type JoinEventResponse = {
+    message: string
+    participation: {
+        id: string
+        eventId: string
+        userId: string
+        joinedAt: string
+    }
+}
+
+export type JoinedEventItem = {
+    joinedAt: string
+    event: EventDto
+}

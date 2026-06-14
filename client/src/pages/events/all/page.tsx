@@ -36,7 +36,7 @@ export function EventsAllPage() {
                     ) :
                     null
             }
-            <ul className="mx-auto grid w-full max-w-7x1 grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <ul className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-4 mt-6 md:grid-cols-2 lg:grid-cols-3">
                 {
                     events.map(event =>
                         <li key={event.id}>

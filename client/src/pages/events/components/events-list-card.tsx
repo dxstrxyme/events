@@ -32,7 +32,7 @@ export function EventListCard({ event }: Props) {
                 <span className="text-muted-foreground">
                     До{event.capacity} чел.
                 </span>
-                <Button asChild variant="outline" size="sm">4
+                <Button asChild variant="outline" size="sm">
                     <Link to={`/events/${event.id}`}>
                         Подробнее
                     </Link>

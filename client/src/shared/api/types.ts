@@ -49,8 +49,9 @@ export type EventDto = {
 export type CreateEventRequest = {
     title: string
     description: string
-    capacity: string
+    capacity: number
     startedAt: string
+    address: string
 }
 
 export type UpdateEventsRequest = Partial<CreateEventRequest>

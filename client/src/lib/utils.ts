@@ -2,6 +2,8 @@ import { isAxiosError } from "@/shared/api/http";
 import type { ApiErrorResponse } from "@/shared/api/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { format, isValid, parseISO } from 'date-fns'
+import { ru } from 'date-fns/locale'
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -30,4 +32,12 @@ export function getUserInitials(name: string) {
     if (parts.length === 0) return '?'
     if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
     return (parts[0]![0]! + parts[parts.length - 1]![0!]).toUpperCase()
+}
+
+export function formatStartsAt(iso: string) {
+    const d = parseISO(iso);
+
+    if (!isValid(d)) return iso
+
+    return format(d, 'PPp', { locale: ru })
 }

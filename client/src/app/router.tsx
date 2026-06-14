@@ -5,6 +5,7 @@ import { GuestRoute } from "./router/guest-route";
 import { ProtectedRoute } from "./router/protected-route";
 import { AuthRegisterPage } from "@/pages/auth/register/page";
 import { AuthLoginPage } from "@/pages/auth/login/page";
+import { EventsAllPage } from "@/pages/events/all/page";
 
 export const appRouter = createBrowserRouter([
     {
@@ -22,7 +23,7 @@ export const appRouter = createBrowserRouter([
             {
                 element: <ProtectedRoute />,
                 children: [
-                    { path: 'events', element: <h1>events</h1> },
+                    { path: 'events', element: <EventsAllPage /> },
                     { path: 'events/my', element: <h1>events/my</h1> },
                     { path: 'events/new', element: <h1>events/new</h1> },
                     { path: 'events/:id', element: <h1>events/:id</h1> },
